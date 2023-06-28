@@ -55,6 +55,14 @@ mongoose.set("strictQuery", true);
 connectDataBase();
 
 const PORT = process.env.PORT || 3001
+
+if (process.env.NODE_ENV === "PRODUCTION") {
+    console.log("hello prod");
+    app.use(express.static(path.join(__dirname, "./build")));
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, "./build/index.html"));
+    });
+  }
 // Server runnig 
 const server = app.listen(PORT, () => {
     console.log(`Server is starting on port:${process.env.PORT} in ${process.env.NODE_ENV} mode`);
